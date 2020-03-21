@@ -88,6 +88,8 @@ public class CaptchaSystems {
                                 Bukkit.getScheduler().runTask(BotCaptcha.getPlugin(), () -> player.kickPlayer(BotCaptcha.getPrefix() + "§cYou have been blocked\n §cbecause you are suspected of being a bot!\n" +
                                         "§cYou aren't a bot? Appeal here: §a" + BotCaptcha.getWebsite()));
 
+                                BotCaptcha.getCaptchaTries().remove(player.getUniqueId());
+
                             } else {
                                 Bukkit.getScheduler().runTask(BotCaptcha.getPlugin(), () -> player.kickPlayer(BotCaptcha.getPrefix() + "§cYou exceeded the time limit!\n§cTry added!\n§cGood luck next time!"));
                             }
@@ -147,6 +149,8 @@ public class CaptchaSystems {
                                     Bukkit.getScheduler().runTask(BotCaptcha.getPlugin(), ()
                                             -> player.kickPlayer(BotCaptcha.getPrefix() + "§cYou have been blocked\n §cbecause you are suspected of being a bot!\n" +
                                             "§cYou aren't a bot? Appeal here: §a" + BotCaptcha.getWebsite()));
+
+                                    BotCaptcha.getCaptchaTries().remove(player.getUniqueId());
 
                                 } else {
                                     Bukkit.getScheduler().runTask(BotCaptcha.getPlugin(), ()
@@ -228,7 +232,7 @@ public class CaptchaSystems {
     }
 
     private static String generateCaptchaWord(int count) {
-        final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-/+#";
+        final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-()+#";
         final StringBuilder builder = new StringBuilder();
 
         while (--count != 0) {

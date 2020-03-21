@@ -57,10 +57,6 @@ public class CommandFinish implements CommandExecutor {
                 BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Have fun on our server!");
                 BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
 
-                if (CaptchaSystems.getUserSession().isEmpty() && CaptchaSystems.getCaptchaInventory().isEmpty() && CaptchaSystems.getCaptchaWord().isEmpty()) {
-                    BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix() + "YES JUHU");
-                }
-
                 BotCaptcha.getCaptchaTries().remove(player.getUniqueId());
             }
 

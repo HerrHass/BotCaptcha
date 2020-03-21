@@ -1,8 +1,12 @@
 package de.herrhass.botcaptcha.utils.config;
 
 import de.herrhass.botcaptcha.BotCaptcha;
+import de.herrhass.botcaptcha.utils.mysql.MySQL;
 import org.bukkit.Bukkit;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -171,6 +175,36 @@ public class ConfigAdapter {
 
     }
 
+    private static CompletableFuture<Boolean> isInconsistentAsync() {
+        return CompletableFuture.supplyAsync( () -> {
+            if (BotCaptcha.isActivated() && BotCaptcha.isConfig() && BotCaptcha.getConfigAdapter().exists()) {
+                try (PreparedStatement preparedStatement = MySQL.getConnection().prepareStatement("SELECT * FROM botcaptcha WHERE UUID = ?")) {
+                    int count = 0;
+
+                    for (String s : BotCaptcha.getConfigAdapterYaml().getConfigurationSection("players").getKeys(false)) {
+                        preparedStatement.setString(1, s);
+
+                        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                            if (!resultSet.next()) {
+                                ++count;
+                            }
+
+                        }
+
+                    }
+                    return count > 0;
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            return false;
+        }, getExecutorService()).handle((b, throwable) -> b != null ? b : false);
+
+    }
+
     private static ExecutorService getExecutorService() {
         return executorService;
     }
@@ -185,6 +219,10 @@ public class ConfigAdapter {
 
     public static boolean isRegistered(UUID uuid) {
         return isRegisteredAsync(uuid).join();
+    }
+
+    public static boolean isInconsistent() {
+        return isInconsistentAsync().join();
     }
 
 }

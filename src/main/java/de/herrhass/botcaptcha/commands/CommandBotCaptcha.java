@@ -117,7 +117,6 @@ public class CommandBotCaptcha implements CommandExecutor {
                     } else {
                         BotCaptcha.setMySQL(true);
 
-                        //TODO: fix open connection process
                         BotCaptcha.loadMySQLConfig();
                         MySQL.connect();
 
@@ -194,8 +193,6 @@ public class CommandBotCaptcha implements CommandExecutor {
                     break;
 
                 case "HELP":
-
-                    //TODO: fix formatting
                     BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
                     BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "/botcaptcha | Information");
                     BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "/botcaptcha help | All commands");

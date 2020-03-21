@@ -21,16 +21,13 @@ public class MySQL {
     private static Connection connection;
 
     public static void connect() {
-        if(!isConnected()) {
-            try {
-                connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, username, password);
-                Bukkit.getConsoleSender().sendMessage("§a[MySQL] Connection opened!");
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, username, password);
+            Bukkit.getConsoleSender().sendMessage("§a[MySQL] Connection opened!");
 
-            } catch (SQLException e) {
-                e.printStackTrace();
-                Bukkit.getConsoleSender().sendMessage("§c[MySQL] Failed to open MySQL connection!");
-            }
-
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Bukkit.getConsoleSender().sendMessage("§c[MySQL] Failed to open MySQL connection!");
         }
 
     }

@@ -67,6 +67,8 @@ public class InventoryClickListener implements Listener {
                         Bukkit.getScheduler().runTask(BotCaptcha.getPlugin(), () -> player.kickPlayer(BotCaptcha.getPrefix() + "§cYou have been blocked\n §cbecause you are suspected of being a bot!\n" +
                                 "§cYou aren't a bot? Appeal here: §a" + BotCaptcha.getWebsite()));
 
+                        BotCaptcha.getCaptchaTries().remove(player.getUniqueId());
+
                     } else {
                         Bukkit.getScheduler().runTask(BotCaptcha.getPlugin(), () -> player.kickPlayer(BotCaptcha.getPrefix() + "§cYou selected the wrong glass pane!\n§cTry added!\n§cGood luck next time!"));
                     }

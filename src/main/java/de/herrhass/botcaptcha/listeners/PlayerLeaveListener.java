@@ -52,8 +52,8 @@ public class PlayerLeaveListener implements Listener {
 
                         }
 
+                        BotCaptcha.getCaptchaTries().remove(player.getUniqueId());
                     }
-
 
                 }, 50L);
 
