@@ -1,22 +1,51 @@
+# Prefix of the plugin: every message starts with this
 prefix: '&7(&aBot&cCaptcha&7) &a'
+# ##################################
+# Boolean shows if the plugins functions are enabled
 enabled: true
+# ##################################
+# Boolean shows if the MySQL storing system is activated (remember: when you are changing this boolean not through a command in game you will need to reload your server)
 mysql: false
+# ##################################
+# Boolean shows if the config storing system is activated
 config: false
+# ##################################
+# The URL of your website where the player needs to accept the terms of usage
 url: 'https://your.website'
+# ##################################
+# This integer shows the time that the player has to finish a captcha
 time-limit: 10
+# ##################################
+# Boolean shows if the ping captcha is activated
 check-ping: true
+# ##################################
+# Boolean shows if the inventory captcha is activated
 inventory-captcha: true
+# ##################################
+# Boolean shows if the inventory writing is activated
 writing-captcha: true
+# ##################################
+# Integer shows the max ping allowed while joining the server
 max-ping: 250
+# ##################################
+# Boolean shows if proxies/VPN are getting blocked
 block-proxies: true
+# ##################################
+# Boolean shows if a permitted player gets a messgae while joining if there are inconsistencies between the database and the config file (both the MySQL and the config storing system need to be activated for this to happen)
 compare-database-configuration: true
+# ##################################
+# These are the basic messages
 messages:
     no-player: '&aYou need to be a player!'
     no-perms: '&aYou are not allowed to execute this command!'
     wrong-args: '&aWrong command usage! Use /botcaptcha help!'
+# ##################################
+# These are the permissions of the plugin
 permissions:
     admin: 'botcaptcha.admin'
     bypass: 'botcaptcha.bypass'
+# ##################################
+# This shows how many bots got blocked in the past
 blocked-bots:
     mysql:
     config:

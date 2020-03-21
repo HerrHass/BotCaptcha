@@ -6,6 +6,10 @@ import de.herrhass.botcaptcha.utils.captchas.CaptchaType;
 import de.herrhass.botcaptcha.utils.config.ConfigAdapter;
 import de.herrhass.botcaptcha.utils.mysql.MySQL;
 import de.herrhass.botcaptcha.utils.proxy.ProxyChecker;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
+import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -75,21 +79,41 @@ public class PlayerJoinListener implements Listener {
                 }
 
                 if ((BotCaptcha.isMySQL() && !MySQL.isRegistered(player.getUniqueId())) || (BotCaptcha.isConfig() && !ConfigAdapter.isRegistered(player.getUniqueId()))) {
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 99999, 99999));
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 99999, 99999));
+                    PacketPlayOutTitle mainTitle = new PacketPlayOutTitle(
+                            PacketPlayOutTitle.EnumTitleAction.TITLE,
+                            IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + BotCaptcha.getPrefix() + "\"}"),
+                            40,
+                            20,
+                            20);
 
-                    if (BotCaptcha.isPingCheck()) {
-                        CaptchaSystems.startCaptcha(player, CaptchaType.PING);
+                    PacketPlayOutTitle subTitle = new PacketPlayOutTitle(
+                            PacketPlayOutTitle.EnumTitleAction.SUBTITLE,
+                            IChatBaseComponent.ChatSerializer.a("{\"text\":\"§aVerification process starts now!\"}"),
+                            40,
+                            20,
+                            20);
 
-                    } else if (BotCaptcha.isInventoryCaptcha()) {
-                        CaptchaSystems.startCaptcha(player, CaptchaType.CLICKING);
+                    ((CraftPlayer) player).getHandle().playerConnection.sendPacket(mainTitle);
+                    ((CraftPlayer) player).getHandle().playerConnection.sendPacket(subTitle);
 
-                    } else if (BotCaptcha.isWritingCaptcha()) {
-                        CaptchaSystems.startCaptcha(player, CaptchaType.WRITING);
+                    Bukkit.getScheduler().runTaskLaterAsynchronously(BotCaptcha.getPlugin(), () -> {
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 99999, 99999));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 99999, 99999));
 
-                    } else {
-                        BotCaptcha.finishProcess(player);
-                    }
+                        if (BotCaptcha.isPingCheck()) {
+                            CaptchaSystems.startCaptcha(player, CaptchaType.PING);
+
+                        } else if (BotCaptcha.isInventoryCaptcha()) {
+                            CaptchaSystems.startCaptcha(player, CaptchaType.CLICKING);
+
+                        } else if (BotCaptcha.isWritingCaptcha()) {
+                            CaptchaSystems.startCaptcha(player, CaptchaType.WRITING);
+
+                        } else {
+                            BotCaptcha.finishProcess(player);
+                        }
+
+                    }, 25L);
 
                 }
 
@@ -101,7 +125,7 @@ public class PlayerJoinListener implements Listener {
 
     private void compareValues(Player player) {
         if (BotCaptcha.isCompareValues()) {
-            if (BotCaptcha.getConfigAdapterYaml() != null && MySQL.isConnected()) {
+            if (BotCaptcha.isMySQL() && BotCaptcha.isConfig()) {
                 if (BotCaptcha.getCompareValues().size() < 1) {
                     if (!MySQL.isInconsistent()) {
                         BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "There were no inconsistencies found!");

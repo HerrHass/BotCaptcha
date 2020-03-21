@@ -9,6 +9,7 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -201,6 +202,11 @@ public class BotCaptcha extends JavaPlugin {
         player.spigot().sendMessage(TextComponent.fromLegacyText(message));
     }
 
+    public static void sendTitleToPlayer(Player player, IChatBaseComponent mainTitle, IChatBaseComponent subTitle) {
+        
+
+    }
+
     public static void finishProcess(Player player) {
         CaptchaSystems.getCaptchaWord().remove(player);
 
@@ -280,29 +286,9 @@ public class BotCaptcha extends JavaPlugin {
         saveBaseConfig();
     }
 
-    public static void setTries(Player player, AtomicInteger count) {
-        if (getCaptchaTries().containsKey(player.getUniqueId())) {
-            if (count.get() <= 3 && count.get() >= 0) {
-                getCaptchaTries().put(player.getUniqueId(), count);
-            }
-
-        }
-
-    }
-
     public static void addTry(Player player) {
         if (getCaptchaTries().containsKey(player.getUniqueId())) {
             getCaptchaTries().get(player.getUniqueId()).incrementAndGet();
-        }
-
-    }
-
-    public static void removeTry(Player player) {
-        if (getCaptchaTries().containsKey(player.getUniqueId())) {
-            if (getCaptchaTries().get(player.getUniqueId()).get() > 0) {
-                getCaptchaTries().get(player.getUniqueId()).decrementAndGet();
-            }
-
         }
 
     }

@@ -87,7 +87,7 @@ public class CommandBotCaptcha implements CommandExecutor {
                             BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "The config storing system was successfully deactivated!");
 
                         } else {
-                            BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix() + "One storing system must be activated!");
+                            BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix() + "§cOne storing system must be activated!");
                             return false;
                         }
 
@@ -110,7 +110,7 @@ public class CommandBotCaptcha implements CommandExecutor {
                             BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "The MySQL storing system was successfully deactivated");
 
                         } else {
-                            BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix() + "One storing system must be activated!");
+                            BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix() + "§cOne storing system must be activated!");
                             return false;
                         }
 

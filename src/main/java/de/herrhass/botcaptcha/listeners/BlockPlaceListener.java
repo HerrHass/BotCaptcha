@@ -17,6 +17,7 @@ public class BlockPlaceListener implements Listener {
         if (BotCaptcha.isActivated()) {
             if ((BotCaptcha.isMySQL() && !MySQL.isRegistered(player.getUniqueId())) || (BotCaptcha.isConfig() && !ConfigAdapter.isRegistered(player.getUniqueId()))) {
                 event.setCancelled(true);
+                return;
             }
 
             event.setCancelled(false);
