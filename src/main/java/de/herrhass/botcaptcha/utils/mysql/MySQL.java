@@ -50,7 +50,7 @@ public class MySQL {
     public static void update(final String update) {
         CompletableFuture.runAsync( () -> {
             if (isConnected() && BotCaptcha.isMySQL() && BotCaptcha.isActivated()) {
-                try (PreparedStatement preparedStatement = getConnection().prepareStatement(update);) {
+                try (PreparedStatement preparedStatement = getConnection().prepareStatement(update)) {
                     preparedStatement.executeUpdate();
 
                 } catch (SQLException e) {
@@ -157,33 +157,6 @@ public class MySQL {
 
     }
 
-    private static CompletableFuture<Integer> getEntriesNumberAsync() {
-        return CompletableFuture.supplyAsync( () -> {
-            if (isConnected() && BotCaptcha.isActivated() && BotCaptcha.isMySQL()) {
-
-                try (PreparedStatement preparedStatement = getConnection().prepareStatement("SELECT * FROM botcaptcha")) {
-                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                        int count = 0;
-
-                        while (resultSet.next()) {
-                            ++count;
-                        }
-
-                        return count;
-                    }
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-
-                }
-
-            }
-
-            return -1;
-        }, getExecutorService()).handle((i, e) -> i != null ? i : -1);
-
-    }
-
     private static CompletableFuture<Boolean> isInconsistentAsync() {
         return CompletableFuture.supplyAsync( () -> {
             if (isConnected() && BotCaptcha.isActivated() && BotCaptcha.isMySQL()) {
@@ -230,10 +203,6 @@ public class MySQL {
         return getNameFromUUIDAsync(uuid).join();
     }
 
-    public static int getEntriesNumber() {
-        return getEntriesNumberAsync().join();
-    }
-
     public static boolean isConnected() {
         return (connection != null);
     }
@@ -242,40 +211,20 @@ public class MySQL {
         return connection;
     }
 
-    public static String getPassword() {
-        return password;
-    }
-
     public static void setPassword(String password) {
         MySQL.password = password;
-    }
-
-    public static String getUsername() {
-        return username;
     }
 
     public static void setUsername(String username) {
         MySQL.username = username;
     }
 
-    public static String getHost() {
-        return host;
-    }
-
     public static void setHost(String host) {
         MySQL.host = host;
     }
 
-    public static String getPort() {
-        return port;
-    }
-
     public static void setPort(String port) {
         MySQL.port = port;
-    }
-
-    public static String getDatabase() {
-        return database;
     }
 
     public static void setDatabase(String database) {
