@@ -1,0 +1,22 @@
+prefix: '&7(&aBot&cCaptcha&7) &a'
+enabled: true
+mysql: false
+config: false
+url: 'https://your.website'
+time-limit: 10
+check-ping: true
+inventory-captcha: true
+writing-captcha: true
+max-ping: 250
+block-proxies: true
+compare-database-configuration: true
+messages:
+    no-player: '&aYou need to be a player!'
+    no-perms: '&aYou are not allowed to execute this command!'
+    wrong-args: '&aWrong command usage! Use /botcaptcha help!'
+permissions:
+    admin: 'botcaptcha.admin'
+    bypass: 'botcaptcha.bypass'
+blocked-bots:
+    mysql:
+    config:

@@ -1,0 +1,8 @@
+name: BotCaptcha
+version: 1.0
+author: HerrHass
+main: de.herrhass.botcaptcha.BotCaptcha
+
+commands:
+  botcaptcha:
+  finish:
