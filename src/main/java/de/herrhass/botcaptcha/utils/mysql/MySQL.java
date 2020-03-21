@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 
 public class MySQL {
 
-    private static final ExecutorService executorService = Executors.newCachedThreadPool();
+    private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool();
 
     private static String host;
     private static String port;
@@ -286,7 +286,7 @@ public class MySQL {
     }
 
     public static ExecutorService getExecutorService() {
-        return executorService;
+        return EXECUTOR_SERVICE;
     }
 
 }

@@ -57,9 +57,10 @@ public class CommandBotCaptcha implements CommandExecutor {
                             MySQL.connect();
                         }
 
-                        BotCaptcha.saveBaseConfig();
                         BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "The functions were successfully activated!");
                     }
+
+                    BotCaptcha.saveBaseConfig();
                     break;
 
                 case "DISABLE":
@@ -73,14 +74,13 @@ public class CommandBotCaptcha implements CommandExecutor {
                             MySQL.disconnect();
                         }
 
-                        BotCaptcha.saveBaseConfig();
                         BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "The functions were successfully deactivated!");
                     }
+
+                    BotCaptcha.saveBaseConfig();
                     break;
 
                 case "CONFIG":
-                    //TODO: fix...sometimes mysql connection should be closed (console shows the output from the mysql class) but connection is somehow not closed and values in the config file (config: ...; mysql: ...) are not getting updated
-
                     if (BotCaptcha.isConfig()) {
                         if (BotCaptcha.isMySQL()) {
                             BotCaptcha.setConfig(false);
@@ -96,7 +96,7 @@ public class CommandBotCaptcha implements CommandExecutor {
                         BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "The config storing system was successfully activated!");
                     }
 
-                    BotCaptcha.saveConfigAdapter();
+                    BotCaptcha.saveBaseConfig();
                     break;
 
                 case "MYSQL":
@@ -117,6 +117,7 @@ public class CommandBotCaptcha implements CommandExecutor {
                     } else {
                         BotCaptcha.setMySQL(true);
 
+                        //TODO: fix open connection process
                         BotCaptcha.loadMySQLConfig();
                         MySQL.connect();
 
@@ -202,11 +203,11 @@ public class CommandBotCaptcha implements CommandExecutor {
                     BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "/botcaptcha disable | Disable all functions");
                     BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "/botcaptcha mysql | Enable/Disable MySQL");
                     BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "/botcaptcha config | Enable/Disable config");
-                    BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "/botcaptcha register <player> | Register a player");
-                    BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "/botcaptcha unregister <player> | Unregister a player");
-                    BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "/botcaptcha block <player> | Block a player");
-                    BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "/botcaptcha unblock <player> | Unblock a player");
-                    BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "/botcaptcha blockproxy | Enable/Disable anti proxy");
+                    BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "/botcaptcha register <player> | Register player");
+                    BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "/botcaptcha unregister <player> | Unregister player");
+                    BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "/botcaptcha block <player> | Block player");
+                    BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "/botcaptcha unblock <player> | Unblock player");
+                    BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "/botcaptcha blockproxy | Enable/Disable proxy-check");
                     BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "/botcaptcha pingcaptcha | Enable/Disable ping captcha!");
                     BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "/botcaptcha invcaptcha | Enable/Disable inventory captcha");
                     BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "/botcaptcha writecaptcha | Enable/Disable writing captcha");
@@ -446,6 +447,8 @@ public class CommandBotCaptcha implements CommandExecutor {
                     } else {
                         BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix() + "You need to activate check ping first (/botcaptcha help)!");
                     }
+
+                    BotCaptcha.saveBaseConfig();
                     break;
 
                 case "SETTIMELIMIT":
@@ -459,6 +462,8 @@ public class CommandBotCaptcha implements CommandExecutor {
                     } else {
                         BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix() + "The time limit needs to be shorter or equal to §a60 seconds §cand longer or equal to §a10 seconds§c!");
                     }
+
+                    BotCaptcha.saveBaseConfig();
                     break;
 
                 default:

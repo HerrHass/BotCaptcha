@@ -21,12 +21,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class BotCaptcha extends JavaPlugin {
 
-    private static final ConcurrentHashMap<Player, AtomicInteger> CAPTCHA_TRIES = new ConcurrentHashMap<>(); //TODO: check if UUID instead of Player works; in general: fix tries system
+    private static final ConcurrentHashMap<UUID, AtomicInteger> CAPTCHA_TRIES = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<Player, Boolean> COMPARE_VALUES = new ConcurrentHashMap<>();
 
     private final PluginManager pluginManager = Bukkit.getPluginManager();
@@ -139,6 +140,7 @@ public class BotCaptcha extends JavaPlugin {
 
         if (isMySQL() && isActivated()) {
             FileConfiguration mySQLConfigYaml;
+
             if (!mySQLConfig.exists()) {
                 mySQLConfig.getParentFile().mkdirs();
                 mySQLConfigYaml = new YamlConfiguration();
@@ -279,9 +281,9 @@ public class BotCaptcha extends JavaPlugin {
     }
 
     public static void setTries(Player player, AtomicInteger count) {
-        if (getCaptchaTries().containsKey(player)) {
+        if (getCaptchaTries().containsKey(player.getUniqueId())) {
             if (count.get() <= 3 && count.get() >= 0) {
-                getCaptchaTries().put(player, count);
+                getCaptchaTries().put(player.getUniqueId(), count);
             }
 
         }
@@ -289,17 +291,16 @@ public class BotCaptcha extends JavaPlugin {
     }
 
     public static void addTry(Player player) {
-        if (getCaptchaTries().containsKey(player)) {
-            getCaptchaTries().get(player).incrementAndGet();
-            System.out.println(getTries(player));
+        if (getCaptchaTries().containsKey(player.getUniqueId())) {
+            getCaptchaTries().get(player.getUniqueId()).incrementAndGet();
         }
 
     }
 
     public static void removeTry(Player player) {
-        if (getCaptchaTries().containsKey(player)) {
-            if (getCaptchaTries().get(player).get() > 0) {
-                getCaptchaTries().get(player).decrementAndGet();
+        if (getCaptchaTries().containsKey(player.getUniqueId())) {
+            if (getCaptchaTries().get(player.getUniqueId()).get() > 0) {
+                getCaptchaTries().get(player.getUniqueId()).decrementAndGet();
             }
 
         }
@@ -332,7 +333,7 @@ public class BotCaptcha extends JavaPlugin {
         return plugin;
     }
 
-    public static ConcurrentHashMap<Player, AtomicInteger> getCaptchaTries() {
+    public static ConcurrentHashMap<UUID, AtomicInteger> getCaptchaTries() {
         synchronized (CAPTCHA_TRIES) {
             return CAPTCHA_TRIES;
         }
@@ -484,8 +485,8 @@ public class BotCaptcha extends JavaPlugin {
     }
 
     public static int getTries(Player player) {
-        if (getCaptchaTries().containsKey(player)) {
-            return getCaptchaTries().get(player).get();
+        if (getCaptchaTries().containsKey(player.getUniqueId())) {
+            return getCaptchaTries().get(player.getUniqueId()).get();
         }
 
         return -1;

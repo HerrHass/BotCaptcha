@@ -23,8 +23,8 @@ public class PlayerJoinListener implements Listener {
         event.setJoinMessage(null);
 
         if (BotCaptcha.isActivated()) {
-            if (!BotCaptcha.getCaptchaTries().containsKey(player)) {
-                BotCaptcha.getCaptchaTries().put(player, new AtomicInteger(0));
+            if (!BotCaptcha.getCaptchaTries().containsKey(player.getUniqueId())) {
+                BotCaptcha.getCaptchaTries().put(player.getUniqueId(), new AtomicInteger(0));
             }
 
             if (!player.hasPermission(BotCaptcha.getAdminPermission())) {

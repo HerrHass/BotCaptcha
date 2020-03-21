@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class CaptchaSystems {
 
-    private static final Random random = new Random();
+    private static final Random RANDOM = new Random();
 
     private static final ConcurrentHashMap<Player, BukkitTask> USER_SESSION = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<Player, Inventory> CAPTCHA_INVENTORY = new ConcurrentHashMap<>();
@@ -212,8 +212,8 @@ public class CaptchaSystems {
                         } else {
                             BotCaptcha.finishProcess(player);
                         }
-                        BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
 
+                        BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
                     }
                     int ping = ((CraftPlayer) player).getHandle().ping;
                     average += ping;
@@ -253,7 +253,7 @@ public class CaptchaSystems {
     }
 
     private static Random getRandom() {
-        return random;
+        return RANDOM;
     }
 
     public static ItemStack getCaptchaPane() {

@@ -1,6 +1,7 @@
 package de.herrhass.botcaptcha.commands;
 
 import de.herrhass.botcaptcha.BotCaptcha;
+import de.herrhass.botcaptcha.utils.captchas.CaptchaSystems;
 import de.herrhass.botcaptcha.utils.config.ConfigAdapter;
 import de.herrhass.botcaptcha.utils.mysql.MySQL;
 import org.bukkit.command.Command;
@@ -56,7 +57,11 @@ public class CommandFinish implements CommandExecutor {
                 BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Have fun on our server!");
                 BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
 
-                BotCaptcha.getCaptchaTries().remove(player);
+                if (CaptchaSystems.getUserSession().isEmpty() && CaptchaSystems.getCaptchaInventory().isEmpty() && CaptchaSystems.getCaptchaWord().isEmpty()) {
+                    BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix() + "YES JUHU");
+                }
+
+                BotCaptcha.getCaptchaTries().remove(player.getUniqueId());
             }
 
         }
