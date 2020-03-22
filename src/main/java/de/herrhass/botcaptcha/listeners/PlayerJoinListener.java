@@ -125,7 +125,7 @@ public class PlayerJoinListener implements Listener {
         if (BotCaptcha.isCompareValues()) {
             if (BotCaptcha.isMySQL() && BotCaptcha.isConfig()) {
                 if (BotCaptcha.getCompareValues().size() < 1) {
-                    if (!MySQL.isInconsistent()) {
+                    if (!MySQL.isInconsistent() && !ConfigAdapter.isInconsistent()) {
                         BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "There were no inconsistencies found!");
                         return;
                     }

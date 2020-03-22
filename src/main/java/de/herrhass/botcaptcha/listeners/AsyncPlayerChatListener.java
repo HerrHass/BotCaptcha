@@ -144,8 +144,9 @@ public class AsyncPlayerChatListener implements Listener {
                             });
 
                         } else {
-                            BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
                             BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix() + "The config is up to date!");
+                            BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
+                            BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "The check and the transmission of the data from\n" + BotCaptcha.getPrefix() + "the config file into the database starts!");
                             BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
                         }
 
@@ -187,16 +188,14 @@ public class AsyncPlayerChatListener implements Listener {
                                             BotCaptcha.getCompareValues().remove(player);
                                             BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
                                             BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Transmission of data from the config file\n" + BotCaptcha.getPrefix() + "into the database was successful!");
-                                            BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Process finished! Thank you for your patience!");
                                             BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
+                                            BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Process finished! Thank you for your patience!");
                                         });
 
                             } else {
                                 BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix() + "The database is up to date!");
                             }
 
-                            BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
-                            BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Process finished! Thank you for your patience!");
                         }, 40);
 
                         break;
