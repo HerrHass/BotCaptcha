@@ -223,6 +223,7 @@ public class BotCaptcha extends JavaPlugin {
                 i1,
                 i2
         ));
+
     }
 
     public static void finishProcess(Player player) {

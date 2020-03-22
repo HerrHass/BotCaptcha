@@ -83,6 +83,9 @@ public class PlayerJoinListener implements Listener {
                 }
 
                 if ((BotCaptcha.isMySQL() && !MySQL.isRegistered(player.getUniqueId())) || (BotCaptcha.isConfig() && !ConfigAdapter.isRegistered(player.getUniqueId()))) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 99999, 99999));
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 99999, 99999));
+
                     BotCaptcha.sendTitleToPlayer(
                             player,
                             IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + BotCaptcha.getPrefix() + "\"}"),
@@ -90,9 +93,6 @@ public class PlayerJoinListener implements Listener {
                             , 40, 20, 20);
 
                     Bukkit.getScheduler().runTaskLaterAsynchronously(BotCaptcha.getPlugin(), () -> {
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 99999, 99999));
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 99999, 99999));
-
                         if (BotCaptcha.isPingCheck()) {
                             CaptchaSystems.startCaptcha(player, CaptchaType.PING);
 
@@ -124,7 +124,6 @@ public class PlayerJoinListener implements Listener {
                         BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "There were no inconsistencies found!");
                         return;
                     }
-
                     BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "§cThere were inconsistencies found!");
                     BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
                     BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Do you want to compare the data and copy it?");

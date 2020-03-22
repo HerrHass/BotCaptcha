@@ -29,10 +29,7 @@ public class PlayerLeaveListener implements Listener {
                 CaptchaSystems.getCaptchaInventory().remove(player);
                 CaptchaSystems.getCaptchaWord().remove(player);
 
-                BotCaptcha.addTry(player);
-
                 Bukkit.getScheduler().runTaskLaterAsynchronously(BotCaptcha.getPlugin(), () -> {
-
                     if (BotCaptcha.getTries(player) == 3) {
                         if (BotCaptcha.isMySQL()) {
                             if (!MySQL.isRegistered(player.getUniqueId())) {
@@ -55,7 +52,7 @@ public class PlayerLeaveListener implements Listener {
                         BotCaptcha.getCaptchaTries().remove(player.getUniqueId());
                     }
 
-                }, 50L);
+                }, 20L);
 
             }
 
