@@ -28,6 +28,7 @@ public class PlayerLeaveListener implements Listener {
 
                 CaptchaSystems.getCaptchaInventory().remove(player);
                 CaptchaSystems.getCaptchaWord().remove(player);
+                CaptchaSystems.getCaptchaInventory().remove(player);
 
                 Bukkit.getScheduler().runTaskLaterAsynchronously(BotCaptcha.getPlugin(), () -> {
                     if (BotCaptcha.getTries(player) == 3) {

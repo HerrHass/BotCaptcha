@@ -29,6 +29,9 @@ public class PlayerJoinListener implements Listener {
                 BotCaptcha.getCaptchaTries().put(player.getUniqueId(), new AtomicInteger(0));
             }
 
+            for (int i = 0; i < 200; i++)
+                BotCaptcha.sendMessageToPlayer(player, "");
+
             if (!player.hasPermission(BotCaptcha.getAdminPermission())) {
                 if (BotCaptcha.isProxyBlocking()) {
                     if (ProxyChecker.isVPN(player.getAddress().getHostName())) {
@@ -128,6 +131,7 @@ public class PlayerJoinListener implements Listener {
                     BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
                     BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Do you want to compare the data and copy it?");
                     BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Confirm with confirm or end the process with end!");
+                    BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
 
                     BotCaptcha.getCompareValues().put(player, true);
 

@@ -48,7 +48,6 @@ public class AsyncPlayerChatListener implements Listener {
                         ConfigAdapter.setBlocked(player.getUniqueId());
                         BotCaptcha.addConfigBlockedBot();
                     }
-
                     Bukkit.getScheduler().runTask(BotCaptcha.getPlugin(), () -> player.kickPlayer(BotCaptcha.getPrefix() + "§cYou have been blocked\n §cbecause you are suspected of being a bot!\n" +
                             "§cYou aren't a bot? Appeal here: §a" + BotCaptcha.getWebsite()));
 
@@ -107,7 +106,7 @@ public class AsyncPlayerChatListener implements Listener {
                 switch (message) {
 
                     case "CONFIRM":
-                        if (ConfigAdapter.isInconsistent()) {
+                        if (MySQL.isInconsistent()) {
                             CompletableFuture.runAsync( () -> {
                                 try (PreparedStatement preparedStatement = MySQL.getConnection().prepareStatement("SELECT * FROM botcaptcha WHERE 1")) {
                                     try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -145,57 +144,60 @@ public class AsyncPlayerChatListener implements Listener {
                             });
 
                         } else {
-                            BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix() + "No data from the database needs to be copied into the config!");
-                            BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Process finished! Thank you for your patience!");
+                            BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
+                            BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix() + "The config is up to date!");
                             BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
                         }
 
-                        if (MySQL.isInconsistent()) {
-                            Bukkit.getScheduler().runTaskLaterAsynchronously(BotCaptcha.getPlugin(), () -> CompletableFuture.runAsync( () -> {
-                                try (PreparedStatement preparedStatement = MySQL.getConnection().prepareStatement("SELECT * FROM botcaptcha WHERE UUID = ?")) {
-                                    for (String s : BotCaptcha.getConfigAdapterYaml().getConfigurationSection("players").getKeys(false)) {
-                                        preparedStatement.setString(1, s);
+                        Bukkit.getScheduler().runTaskLaterAsynchronously(BotCaptcha.getPlugin(), () -> {
+                            if (ConfigAdapter.isInconsistent()) {
+                                CompletableFuture.runAsync( () -> {
+                                    try (PreparedStatement preparedStatement = MySQL.getConnection().prepareStatement("SELECT * FROM botcaptcha WHERE UUID = ?")) {
+                                        for (String s : BotCaptcha.getConfigAdapterYaml().getConfigurationSection("players").getKeys(false)) {
+                                            preparedStatement.setString(1, s);
 
-                                        try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                                            if (!resultSet.next()) {
-                                                String playerName = BotCaptcha.getConfigAdapterYaml().getString("players." + s + ".name");
-                                                int blocked;
+                                            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                                                if (!resultSet.next()) {
+                                                    String playerName = BotCaptcha.getConfigAdapterYaml().getString("players." + s + ".name");
+                                                    int blocked;
 
-                                                if (!BotCaptcha.getConfigAdapterYaml().getBoolean("players." + s + ".blocked")) {
-                                                    blocked = 0;
+                                                    if (!BotCaptcha.getConfigAdapterYaml().getBoolean("players." + s + ".blocked")) {
+                                                        blocked = 0;
 
-                                                } else {
-                                                    blocked = 1;
+                                                    } else {
+                                                        blocked = 1;
+                                                    }
+
+                                                    MySQL.customInsert(playerName, UUID.fromString(s), blocked);
+                                                    BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Player " + playerName + " successfully transferred!");
                                                 }
 
-                                                MySQL.customInsert(playerName, UUID.fromString(s), blocked);
-                                                BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Player " + playerName + " successfully transferred!");
                                             }
 
                                         }
 
+                                    } catch (SQLException e) {
+                                        e.printStackTrace();
                                     }
 
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                }
+                                }, Executors.newCachedThreadPool())
+                                        .handle((aVoid, throwable) -> throwable)
+                                        .whenComplete((throwable, throwable2) -> {
 
-                            }, Executors.newCachedThreadPool())
-                                    .handle((aVoid, throwable) -> throwable)
-                                    .whenComplete((throwable, throwable2) -> {
+                                            BotCaptcha.getCompareValues().remove(player);
+                                            BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
+                                            BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Transmission of data from the config file\n" + BotCaptcha.getPrefix() + "into the database was successful!");
+                                            BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Process finished! Thank you for your patience!");
+                                            BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
+                                        });
 
-                                        BotCaptcha.getCompareValues().remove(player);
-                                        BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
-                                        BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Transmission of data from the config file\n" + BotCaptcha.getPrefix() + "into the database was successful!");
-                                        BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Process finished! Thank you for your patience!");
-                                        BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
-                            }), 50);
+                            } else {
+                                BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix() + "The database is up to date!");
+                            }
 
-                        } else {
-                            BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix() + "No data from the config needs to be copied into the database!");
-                            BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Process finished! Thank you for your patience!");
                             BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
-                        }
+                            BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Process finished! Thank you for your patience!");
+                        }, 40);
 
                         break;
 

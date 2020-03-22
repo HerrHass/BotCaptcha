@@ -23,6 +23,7 @@ public class CaptchaSystems {
     private static final ConcurrentHashMap<Player, BukkitTask> USER_SESSION = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<Player, Inventory> CAPTCHA_INVENTORY = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<Player, String> CAPTCHA_WORD = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Player, Boolean> FINISH_PROCESS = new ConcurrentHashMap<>();
 
     private static final ItemStack CAPTCHA_PANE = new ItemBuilder(Material.STAINED_GLASS_PANE, (short) 5).setName("§aCaptcha").build();
 
@@ -242,6 +243,10 @@ public class CaptchaSystems {
         }
 
         return builder.toString();
+    }
+
+    public static ConcurrentHashMap<Player, Boolean> getFinishProcess() {
+        return FINISH_PROCESS;
     }
 
     public static ConcurrentHashMap<Player, BukkitTask> getUserSession() {

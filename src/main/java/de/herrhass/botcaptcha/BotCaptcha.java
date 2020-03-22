@@ -227,6 +227,8 @@ public class BotCaptcha extends JavaPlugin {
     }
 
     public static void finishProcess(Player player) {
+        CaptchaSystems.getFinishProcess().put(player, true);
+
         CaptchaSystems.getCaptchaWord().remove(player);
 
         if (CaptchaSystems.getUserSession().containsKey(player)) {
@@ -321,6 +323,7 @@ public class BotCaptcha extends JavaPlugin {
         pluginManager.registerEvents(new PlayerLeaveListener(), this);
         pluginManager.registerEvents(new PlayerLoginListener(), this);
         pluginManager.registerEvents(new AsyncPlayerChatListener(), this);
+        pluginManager.registerEvents(new PlayerCommandPreprocessListener(), this);
 
         getCommand("botcaptcha").setExecutor(new CommandBotCaptcha());
         getCommand("finish").setExecutor(new CommandFinish());
