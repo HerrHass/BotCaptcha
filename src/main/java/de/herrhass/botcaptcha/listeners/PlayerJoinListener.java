@@ -7,9 +7,7 @@ import de.herrhass.botcaptcha.utils.config.ConfigAdapter;
 import de.herrhass.botcaptcha.utils.mysql.MySQL;
 import de.herrhass.botcaptcha.utils.proxy.ProxyChecker;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -53,6 +51,12 @@ public class PlayerJoinListener implements Listener {
                 BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
             }
 
+            BotCaptcha.sendTitleToPlayer(
+                    player,
+                    IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + BotCaptcha.getPrefix() + "\"}"),
+                    IChatBaseComponent.ChatSerializer.a("{\"text\":\"§aProtects this server!\"}")
+                    , 40, 20, 20);
+
             if (BotCaptcha.isMySQL() || BotCaptcha.isConfig()) {
                 if (BotCaptcha.isConfig() && ConfigAdapter.isRegistered(player.getUniqueId())) {
                     if (!ConfigAdapter.getNameFromUUID(player.getUniqueId()).equals(player.getName())) {
@@ -79,22 +83,11 @@ public class PlayerJoinListener implements Listener {
                 }
 
                 if ((BotCaptcha.isMySQL() && !MySQL.isRegistered(player.getUniqueId())) || (BotCaptcha.isConfig() && !ConfigAdapter.isRegistered(player.getUniqueId()))) {
-                    PacketPlayOutTitle mainTitle = new PacketPlayOutTitle(
-                            PacketPlayOutTitle.EnumTitleAction.TITLE,
+                    BotCaptcha.sendTitleToPlayer(
+                            player,
                             IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + BotCaptcha.getPrefix() + "\"}"),
-                            40,
-                            20,
-                            20);
-
-                    PacketPlayOutTitle subTitle = new PacketPlayOutTitle(
-                            PacketPlayOutTitle.EnumTitleAction.SUBTITLE,
-                            IChatBaseComponent.ChatSerializer.a("{\"text\":\"§aVerification process starts now!\"}"),
-                            40,
-                            20,
-                            20);
-
-                    ((CraftPlayer) player).getHandle().playerConnection.sendPacket(mainTitle);
-                    ((CraftPlayer) player).getHandle().playerConnection.sendPacket(subTitle);
+                            IChatBaseComponent.ChatSerializer.a("{\"text\":\"§aVerification process starts now!\"}")
+                            , 40, 20, 20);
 
                     Bukkit.getScheduler().runTaskLaterAsynchronously(BotCaptcha.getPlugin(), () -> {
                         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 99999, 99999));
@@ -113,7 +106,7 @@ public class PlayerJoinListener implements Listener {
                             BotCaptcha.finishProcess(player);
                         }
 
-                    }, 25L);
+                    }, 60L);
 
                 }
 

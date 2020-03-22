@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 
 public class ConfigAdapter {
 
-    private static final ExecutorService executorService = Executors.newCachedThreadPool();
+    private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool();
 
     public static void setRegistered(UUID uuid, String name) {
         CompletableFuture.runAsync( () -> {
@@ -206,7 +206,7 @@ public class ConfigAdapter {
     }
 
     private static ExecutorService getExecutorService() {
-        return executorService;
+        return EXECUTOR_SERVICE;
     }
 
     public static String getNameFromUUID(UUID uuid) {

@@ -10,11 +10,14 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
+import net.minecraft.server.v1_8_R3.PlayerConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -202,9 +205,24 @@ public class BotCaptcha extends JavaPlugin {
         player.spigot().sendMessage(TextComponent.fromLegacyText(message));
     }
 
-    public static void sendTitleToPlayer(Player player, IChatBaseComponent mainTitle, IChatBaseComponent subTitle) {
-        
+    public static void sendTitleToPlayer(Player player, IChatBaseComponent mainTitle, IChatBaseComponent subTitle, int i, int i1, int i2) {
+        PlayerConnection playerConnection = ((CraftPlayer) player).getHandle().playerConnection;
 
+        playerConnection.sendPacket(new PacketPlayOutTitle(
+                PacketPlayOutTitle.EnumTitleAction.TITLE,
+                mainTitle,
+                i,
+                i1,
+                i2
+        ));
+
+        playerConnection.sendPacket(new PacketPlayOutTitle(
+                PacketPlayOutTitle.EnumTitleAction.SUBTITLE,
+                subTitle,
+                i,
+                i1,
+                i2
+        ));
     }
 
     public static void finishProcess(Player player) {

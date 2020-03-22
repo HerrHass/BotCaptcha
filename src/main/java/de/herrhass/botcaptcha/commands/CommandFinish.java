@@ -4,6 +4,7 @@ import de.herrhass.botcaptcha.BotCaptcha;
 import de.herrhass.botcaptcha.utils.captchas.CaptchaSystems;
 import de.herrhass.botcaptcha.utils.config.ConfigAdapter;
 import de.herrhass.botcaptcha.utils.mysql.MySQL;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -50,6 +51,12 @@ public class CommandFinish implements CommandExecutor {
                 for (int i = 0; i < 200; i++) {
                     player.sendMessage(" ");
                 }
+
+                BotCaptcha.sendTitleToPlayer(
+                        player,
+                        IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + BotCaptcha.getPrefix() + "\"}"),
+                        IChatBaseComponent.ChatSerializer.a("{\"text\":\"§aVerification process successfully completed!\"}")
+                        , 40, 20, 20);
 
                 BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
                 BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Congratulations!");
