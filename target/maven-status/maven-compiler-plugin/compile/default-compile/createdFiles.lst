@@ -1,4 +1,5 @@
 de\herrhass\botcaptcha\utils\itembuilder\ItemBuilder.class
+de\herrhass\botcaptcha\listeners\PlayerCommandPreprocessListener.class
 de\herrhass\botcaptcha\utils\captchas\CaptchaSystems$4.class
 de\herrhass\botcaptcha\listeners\InventoryCloseListener.class
 de\herrhass\botcaptcha\commands\CommandFinish.class

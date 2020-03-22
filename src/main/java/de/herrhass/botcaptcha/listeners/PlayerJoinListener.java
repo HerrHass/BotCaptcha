@@ -89,6 +89,8 @@ public class PlayerJoinListener implements Listener {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 99999, 99999));
                     player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 99999, 99999));
 
+                    CaptchaSystems.getFinishProcess().put(player, false);
+
                     BotCaptcha.sendTitleToPlayer(
                             player,
                             IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + BotCaptcha.getPrefix() + "\"}"),

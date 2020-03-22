@@ -22,13 +22,13 @@ public class PlayerLeaveListener implements Listener {
         if (BotCaptcha.isActivated()) {
             BotCaptcha.getCompareValues().remove(player);
 
-            if (CaptchaSystems.getUserSession().containsKey(player) || CaptchaSystems.getCaptchaInventory().containsKey(player) || CaptchaSystems.getCaptchaWord().containsKey(player)) {
+            if (CaptchaSystems.getUserSession().containsKey(player) || CaptchaSystems.getCaptchaInventory().containsKey(player) || CaptchaSystems.getCaptchaWord().containsKey(player) || CaptchaSystems.getFinishProcess().containsKey(player)) {
                 CaptchaSystems.getUserSession().get(player).cancel();
                 CaptchaSystems.getUserSession().remove(player);
 
                 CaptchaSystems.getCaptchaInventory().remove(player);
                 CaptchaSystems.getCaptchaWord().remove(player);
-                CaptchaSystems.getCaptchaInventory().remove(player);
+                CaptchaSystems.getFinishProcess().remove(player);
 
                 Bukkit.getScheduler().runTaskLaterAsynchronously(BotCaptcha.getPlugin(), () -> {
                     if (BotCaptcha.getTries(player) == 3) {

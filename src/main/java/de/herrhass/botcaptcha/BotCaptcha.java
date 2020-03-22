@@ -227,6 +227,7 @@ public class BotCaptcha extends JavaPlugin {
     }
 
     public static void finishProcess(Player player) {
+        CaptchaSystems.getFinishProcess().remove(player);
         CaptchaSystems.getFinishProcess().put(player, true);
 
         CaptchaSystems.getCaptchaWord().remove(player);
