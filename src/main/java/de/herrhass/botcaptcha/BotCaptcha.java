@@ -4,7 +4,6 @@ import de.herrhass.botcaptcha.commands.CommandBotCaptcha;
 import de.herrhass.botcaptcha.commands.CommandFinish;
 import de.herrhass.botcaptcha.listeners.*;
 import de.herrhass.botcaptcha.utils.captchas.CaptchaSystems;
-import de.herrhass.botcaptcha.utils.config.ConfigAdapter;
 import de.herrhass.botcaptcha.utils.mysql.MySQL;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
