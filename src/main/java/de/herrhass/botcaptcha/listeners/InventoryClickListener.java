@@ -24,7 +24,6 @@ public class InventoryClickListener implements Listener {
 
         if (event.getCurrentItem().getType() == Material.AIR) return;
 
-
         if (event.getClickedInventory().getTitle().equals("§aCaptcha ->") && CaptchaSystems.getCaptchaInventory().containsKey(player)) {
             event.setCancelled(true);
 

@@ -135,7 +135,6 @@ public class AsyncPlayerChatListener implements Listener {
                             }, Executors.newCachedThreadPool())
                                     .handle((aVoid, throwable) -> throwable)
                                     .whenComplete((throwable, throwable2) -> {
-
                                         BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
                                         BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Transmission of data from the database\n" + BotCaptcha.getPrefix() + "into the config file was successful!");
                                         BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
@@ -150,7 +149,7 @@ public class AsyncPlayerChatListener implements Listener {
                             BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
                         }
 
-                        Bukkit.getScheduler().runTaskLaterAsynchronously(BotCaptcha.getPlugin(), () -> {
+                        Bukkit.getScheduler().runTaskLater(BotCaptcha.getPlugin(), () -> {
                             if (ConfigAdapter.isInconsistent()) {
                                 CompletableFuture.runAsync( () -> {
                                     try (PreparedStatement preparedStatement = MySQL.getConnection().prepareStatement("SELECT * FROM botcaptcha WHERE UUID = ?")) {
@@ -184,7 +183,6 @@ public class AsyncPlayerChatListener implements Listener {
                                 }, Executors.newCachedThreadPool())
                                         .handle((aVoid, throwable) -> throwable)
                                         .whenComplete((throwable, throwable2) -> {
-
                                             BotCaptcha.getCompareValues().remove(player);
                                             BotCaptcha.sendMessageToPlayer(player, BotCaptcha.getPrefix());
                                             BotCaptcha.sendMessageToPlayer(player,BotCaptcha.getPrefix() + "Transmission of data from the config file\n" + BotCaptcha.getPrefix() + "into the database was successful!");
@@ -208,7 +206,6 @@ public class AsyncPlayerChatListener implements Listener {
                     default:
                         player.sendMessage(BotCaptcha.getPrefix() + "Type confirm | end");
                         break;
-
                 }
 
             }
