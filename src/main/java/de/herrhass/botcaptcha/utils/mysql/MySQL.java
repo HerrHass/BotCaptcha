@@ -90,7 +90,6 @@ public class MySQL {
     private static CompletableFuture<Boolean> isRegisteredAsync(UUID uuid) {
         return CompletableFuture.supplyAsync( () -> {
             if (isConnected() && BotCaptcha.isActivated() && BotCaptcha.isMySQL()) {
-
                 try (PreparedStatement preparedStatement = getConnection().prepareStatement("SELECT * FROM botcaptcha WHERE UUID = " + '"' + uuid.toString() + '"' + "")){
                     try (ResultSet resultSet = preparedStatement.executeQuery()) {
                         return resultSet.next();
@@ -112,7 +111,6 @@ public class MySQL {
     private static CompletableFuture<Boolean> isBlockedAsync(UUID uuid) {
         return CompletableFuture.supplyAsync( () -> {
             if (isConnected() && BotCaptcha.isActivated() && BotCaptcha.isMySQL()) {
-
                 try (PreparedStatement preparedStatement = getConnection().prepareStatement("SELECT * FROM botcaptcha WHERE UUID = " + '"' + uuid.toString() + '"' + "")) {
                     try (ResultSet resultSet = preparedStatement.executeQuery()) {
                         if (resultSet.next()) {
@@ -160,7 +158,6 @@ public class MySQL {
     private static CompletableFuture<Boolean> isInconsistentAsync() {
         return CompletableFuture.supplyAsync( () -> {
             if (isConnected() && BotCaptcha.isActivated() && BotCaptcha.isMySQL()) {
-
                 try (PreparedStatement preparedStatement = getConnection().prepareStatement("SELECT * FROM botcaptcha")){
                     try (ResultSet resultSet = preparedStatement.executeQuery()){
                         int count = 0;

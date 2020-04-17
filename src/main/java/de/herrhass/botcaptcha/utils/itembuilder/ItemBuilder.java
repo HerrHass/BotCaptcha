@@ -25,7 +25,7 @@ public class ItemBuilder {
     public static void fillEmptySlots(Inventory inventory) {
         ItemStack fillMaterial = new ItemBuilder(Material.STAINED_GLASS_PANE, (short) 7).setName(" ").build();
 
-        for (int slots = 0; slots < inventory.getSize(); slots++) {
+        for (int slots = 0; slots < inventory.getSize(); ++slots) {
             if (inventory.getItem(slots) == null) {
                 inventory.setItem(slots, fillMaterial);
             }

@@ -31,10 +31,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class BotCaptcha extends JavaPlugin {
 
+    private final PluginManager pluginManager = Bukkit.getPluginManager();
+
     private static final ConcurrentHashMap<UUID, AtomicInteger> CAPTCHA_TRIES = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<Player, Boolean> COMPARE_VALUES = new ConcurrentHashMap<>();
-
-    private final PluginManager pluginManager = Bukkit.getPluginManager();
 
     // Singleton only used for schedulers
     private static BotCaptcha plugin;
@@ -342,16 +342,9 @@ public class BotCaptcha extends JavaPlugin {
         return plugin;
     }
 
-    public static ConcurrentHashMap<UUID, AtomicInteger> getCaptchaTries() {
-        synchronized (CAPTCHA_TRIES) {
-            return CAPTCHA_TRIES;
-        }
+    public static ConcurrentHashMap<UUID, AtomicInteger> getCaptchaTries() { return CAPTCHA_TRIES; }
 
-    }
-
-    public static ConcurrentHashMap<Player, Boolean> getCompareValues() {
-        return COMPARE_VALUES;
-    }
+    public static ConcurrentHashMap<Player, Boolean> getCompareValues() { return COMPARE_VALUES; }
 
     public static File getBaseConfig() {
         return baseConfig;
