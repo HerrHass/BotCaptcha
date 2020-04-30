@@ -44,7 +44,7 @@ public class UUIDFetcher {
                 try {
                     HttpURLConnection connection = (HttpURLConnection) new URL(String.format(getUuidUrl(), lowerCaseName, timestamp/1000)).openConnection();
                     connection.setReadTimeout(5000);
-                    UUIDFetcher data = getGson().fromJson(new BufferedReader(new InputStreamReader(connection.getInputStream())), UUIDFetcher.class);
+                    UUIDFetcher data = getGSON().fromJson(new BufferedReader(new InputStreamReader(connection.getInputStream())), UUIDFetcher.class);
 
                     if (data != null) {
                         getUuidCache().put(lowerCaseName, data.id);
@@ -66,7 +66,7 @@ public class UUIDFetcher {
 
     }
 
-    private static Gson getGson() {
+    private static Gson getGSON() {
         return GSON;
     }
 
