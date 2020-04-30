@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="BotCaptcha:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/BotCaptcha_jar</output-path>
+    <root id="archive" name="BotCaptcha.jar">
+      <element id="module-output" name="BotCaptcha" />
+    </root>
+  </artifact>
+</component>
